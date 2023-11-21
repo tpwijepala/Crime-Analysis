@@ -2,9 +2,12 @@ import sys
 import pandas as pd
 
 # input_file = sys.argv[1]
+# output_file = sys.argv[1]
 
 #temp file name
-input_file = 'data/2022-data/crimedata_csv_AllNeighbourhoods_2022.csv'
+input_file = 'data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv'
+output_file = 'data/cleaned-data/2022_crimedata.csv'
+
 df = pd.read_csv(input_file)
 
 df = df.drop(['DAY', 'HOUR', 'MINUTE', 'HUNDRED_BLOCK', 'X', 'Y'], axis=1)
@@ -27,5 +30,10 @@ Theft From Vehicle, Theft of Bicycle & Theft of Vehicle,
 Car Crash (w/ Fatality), Car Crash (w/ Injury)
 
 Will need to take into account the similiarities/Differences when analyzing data"""
+
+df = df[['YEAR', 'MONTH', 'TYPE', 'NEIGHBOURHOOD']]
+df = df.sort_values(by=['YEAR','MONTH','TYPE', 'NEIGHBOURHOOD'])
+
+df.to_csv(output_file, index=False)
 
 print(df)
