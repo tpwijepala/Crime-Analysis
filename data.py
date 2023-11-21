@@ -7,6 +7,8 @@ import pandas as pd
 input_file = 'data/2022-data/crimedata_csv_AllNeighbourhoods_2022.csv'
 df = pd.read_csv(input_file)
 
+df = df.drop(['DAY', 'HOUR', 'MINUTE', 'HUNDRED_BLOCK', 'X', 'Y'], axis=1)
+
 df_categories = df['TYPE'].unique()
 print(df_categories)
 
