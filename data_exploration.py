@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 cleaned_data = "data/cleaned-data/2022_crimedata.csv"
 
 df = pd.read_csv(cleaned_data)
+df["DATE"] = pd.to_datetime(
+    df["YEAR"].astype(str) + df["MONTH"].astype(str), format="%Y%m"
+)
 
 # Visualizing the distribution of crime types
 plt.figure(figsize=(12, 6))
