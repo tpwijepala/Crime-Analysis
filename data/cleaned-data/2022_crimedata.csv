@@ -319,7 +319,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,1,Assault,West End
 2022,1,Assault,West End
 2022,1,Assault,West End
-2022,1,Assault,
 2022,1,B&E-C,Arbutus Ridge
 2022,1,B&E-C,Arbutus Ridge
 2022,1,B&E-C,Central Business District
@@ -3390,7 +3389,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,2,CF-I,West End
 2022,2,CF-I,West End
 2022,2,CF-I,West End
-2022,2,CF-I,
 2022,2,Homicide,West Point Grey
 2022,2,Mischief,Arbutus Ridge
 2022,2,Mischief,Arbutus Ridge
@@ -8540,7 +8538,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,4,Assault,West End
 2022,4,Assault,West End
 2022,4,Assault,West Point Grey
-2022,4,Assault,
 2022,4,B&E-C,Arbutus Ridge
 2022,4,B&E-C,Arbutus Ridge
 2022,4,B&E-C,Central Business District
@@ -11879,7 +11876,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,5,CF-I,West End
 2022,5,CF-I,West End
 2022,5,CF-I,West Point Grey
-2022,5,CF-I,
 2022,5,Homicide,Central Business District
 2022,5,Homicide,Marpole
 2022,5,Homicide,Mount Pleasant
@@ -17387,7 +17383,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,7,Assault,West End
 2022,7,Assault,West Point Grey
 2022,7,Assault,West Point Grey
-2022,7,Assault,
 2022,7,B&E-C,Arbutus Ridge
 2022,7,B&E-C,Central Business District
 2022,7,B&E-C,Central Business District
@@ -23940,7 +23935,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,9,CF-I,West End
 2022,9,CF-I,West End
 2022,9,CF-I,West End
-2022,9,CF-I,
 2022,9,Mischief,Arbutus Ridge
 2022,9,Mischief,Arbutus Ridge
 2022,9,Mischief,Arbutus Ridge
@@ -29643,7 +29637,6 @@ YEAR,MONTH,TYPE,NEIGHBOURHOOD
 2022,11,Assault,West End
 2022,11,Assault,West End
 2022,11,Assault,West End
-2022,11,Assault,
 2022,11,B&E-C,Arbutus Ridge
 2022,11,B&E-C,Central Business District
 2022,11,B&E-C,Central Business District
