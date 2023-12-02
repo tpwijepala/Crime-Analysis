@@ -1,10 +1,18 @@
+import sys
 import pandas as pd
 import utm
 
-input_file = "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
-output_file = "data/cleaned-data/2022_crimedata.csv"
+# input_file = sys.argv[1]
+# output_file = sys.argv[2]
 
-df = pd.read_csv(input_file)
+# preprocessed_data_file = f"data/pre-processed-data/{input_file}"
+# cleaned_data_file = f"data/cleaned-data/{output_file}"
+preprocessed_data_file = (
+    "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
+)
+cleaned_data_file = "data/cleaned-data/2022_crimedata.csv"
+
+df = pd.read_csv(preprocessed_data_file)
 
 df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK"], axis=1)
 
@@ -55,4 +63,4 @@ Will need to take into account the similiarities/Differences when analyzing data
 df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
 df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"])
 
-df.to_csv(output_file, index=False)
+df.to_csv(cleaned_data_file, index=False)
