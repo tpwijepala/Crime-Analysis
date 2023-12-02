@@ -1,8 +1,8 @@
 import sys
 import pandas as pd
 
-input_file = sys.argv[1]
-output_file = sys.argv[2]
+# input_file = sys.argv[1]
+# output_file = sys.argv[2]
 
 # preprocessed_data_file = f"data/pre-processed-data/{input_file}"
 # cleaned_data_file = f"data/cleaned-data/{output_file}"
@@ -13,7 +13,7 @@ cleaned_data_file = "data/cleaned-data/2022_crimedata.csv"
 
 df = pd.read_csv(preprocessed_data_file)
 
-df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK", "X", "Y"], axis=1)
+df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK"], axis=1)
 
 rename_mapping = {
     "Break and Enter Commercial": "B&E-C",
