@@ -1,11 +1,12 @@
 import pandas as pd
+import utm
 
 input_file = "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
 output_file = "data/cleaned-data/2022_crimedata.csv"
 
 df = pd.read_csv(input_file)
 
-df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK", "X", "Y"], axis=1)
+df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK"], axis=1)
 
 rename_mapping = {
     "Break and Enter Commercial": "B&E-C",
@@ -20,11 +21,29 @@ rename_mapping = {
     "Vehicle Collision or Pedestrian Struck (with Fatality)": "CC-F",
     "Vehicle Collision or Pedestrian Struck (with Injury)": "CF-I",
 }
+
+
 df["TYPE"] = df["TYPE"].map(rename_mapping)
 
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
 
 df_categories_new = df["TYPE"].unique()
+
+#changing UTM -> lat and lon
+#https://stackoverflow.com/questions/49890492/convert-utm-to-lat-long-in-csv-using-pandas
+
+def utmToLatlon(row):
+    if (row["X"]==0 and row["Y"]==0):
+         return pd.Series({"LAT": 'NULL', "LON": 'NULL'})
+    
+    lat, lon = utm.to_latlon(row["X"], row["Y"], 10, northern=True)
+    return pd.Series({"LAT": lat, "LON": lon})
+
+df = df.merge(df.apply(utmToLatlon, axis=1), left_index=True, right_index=True)
+
+df.drop(columns=['X', 'Y'], inplace=True)
+
+
 
 """ Note that some crimes are similiar:
 B&E Commerical & B&E res/other,
@@ -33,7 +52,7 @@ Car Crash (w/ Fatality), Car Crash (w/ Injury)
 
 Will need to take into account the similiarities/Differences when analyzing data"""
 
-df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"]]
-df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"])
+df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
+df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"])
 
 df.to_csv(output_file, index=False)
