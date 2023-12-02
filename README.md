@@ -1,7 +1,9 @@
 # Crime-Analysis
 
 
-Before running any of the jupyter notebooks, you need to install some requirements
+Prerequisites
+
+You will need to install these dependencies
 
 Python 2
 
