@@ -1,19 +1,11 @@
-import sys
 import pandas as pd
 
-# input_file = sys.argv[1]
-# output_file = sys.argv[1]
-
-# temp file name
 input_file = "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
 output_file = "data/cleaned-data/2022_crimedata.csv"
 
 df = pd.read_csv(input_file)
 
 df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK", "X", "Y"], axis=1)
-
-# df_categories = df["TYPE"].unique()
-# print(df_categories)
 
 rename_mapping = {
     "Break and Enter Commercial": "B&E-C",
@@ -30,24 +22,9 @@ rename_mapping = {
 }
 df["TYPE"] = df["TYPE"].map(rename_mapping)
 
-
-# checking for missing values
-missing_values = df.isnull().sum()
-print("\nMissing Values:")
-print(missing_values)
-
-# Drop rows with missing values
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
-print(df)
-
-
-# Checking data types
-# print("\nData Types:")
-# print(df.dtypes)
-
 
 df_categories_new = df["TYPE"].unique()
-# print(df_categories_new)
 
 """ Note that some crimes are similiar:
 B&E Commerical & B&E res/other,
@@ -60,5 +37,3 @@ df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"]]
 df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"])
 
 df.to_csv(output_file, index=False)
-
-# print(df)
