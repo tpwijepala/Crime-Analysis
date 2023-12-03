@@ -10,7 +10,7 @@ cleaned_files = [file for file in os.listdir("data/cleaned-data/")]
 df = pd.DataFrame()
 for file in cleaned_files:
     data = pd.read_csv("data/cleaned-data/"+file)
-    df = df.append(data)
+    df = pd.concat([df, data])
 
 # Monthly DataFrames
 df_jan = df[df["MONTH"] == 1]
@@ -41,6 +41,16 @@ months = [
     "December",
 ]
 
+def crime_rate_trends():
+    df["DATE"] = pd.to_datetime(df["YEAR"].astype(str) + df["MONTH"].astype(str), format="%Y%m")
+    plt.figure(figsize=(12,8))
+    plt.ylabel("# of Crimes")
+    plt.xlabel("DATE")
+    plt.title("Crime Rate Trends")
+    crime_rates = df.groupby("DATE").size()
+    crime_rates.plot(marker="o", linestyle="-", color="blue")
+    plt.savefig("crime-rate-trends.png")
+    
 
 def monthly_crime_rate():
     # Exploring monthly trends in crimes
@@ -400,6 +410,7 @@ def monthly_neighbourhood_crimes():
 
 
 def main():
+    crime_rate_trends()
     monthly_crime_rate()
     crime_type_trends()
     monthly_crime_types()
