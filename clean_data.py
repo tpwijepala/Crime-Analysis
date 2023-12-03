@@ -1,11 +1,18 @@
 import sys
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.linear_model import LinearRegression
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestRegressor
 
 # input_file = sys.argv[1]
 # output_file = sys.argv[2]
 
 # preprocessed_data_file = f"data/pre-processed-data/{input_file}"
 # cleaned_data_file = f"data/cleaned-data/{output_file}"
+
+
 preprocessed_data_file = (
     "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
 )
@@ -13,7 +20,7 @@ cleaned_data_file = "data/cleaned-data/2022_crimedata.csv"
 
 df = pd.read_csv(preprocessed_data_file)
 
-df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK"], axis=1)
+df = df.drop(["DAY", "HOUR", "MINUTE"], axis=1)
 
 rename_mapping = {
     "Break and Enter Commercial": "B&E-C",
@@ -32,7 +39,89 @@ df["TYPE"] = df["TYPE"].map(rename_mapping)
 
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
 
-df_categories_new = df["TYPE"].unique()
+missing_utm_df = df[(df["X"] == 0) | (df["Y"] == 0)]
+
+unique_neighborhoods = missing_utm_df["NEIGHBOURHOOD"].unique()
+
+# for neighborhood in unique_neighborhoods:
+#     print(neighborhood)
+
+
+# approx_utm_coords = {
+#     "Central Business District": {"X": 491493.3146, "Y": 5459541.9753},
+#     "Renfrew-Collingwood": {"X": 495958.4128, "Y": 5454219.578},
+#     "Hastings-Sunrise": {"X": 495897.2912, "Y": 5458709.6784},
+#     "Mount Pleasant": {"X": 492644.7214, "Y": 5456749.5725},
+#     "Victoria-Fraserview": {"X": 494409.0105, "Y": 5453316.1714},
+#     "West Point Grey": {"X": 486451.1627, "Y": 5457537.8003},
+#     "Marpole": {"X": 489766.1375, "Y": 5450967.6983},
+#     "Stanley Park": {"X": 490124.2541, "Y": 5460764.8808},
+#     "West End": {"X": 490247.4903, "Y": 5459171.3852},
+#     "Kitsilano": {"X": 489317.4997, "Y": 5457464.529},
+#     "Fairview": {"X": 489925.4636, "Y": 5456850.491},
+#     "Strathcona": {"X": 494011.8703, "Y": 5458691.2305},
+#     "Grandview-Woodland": {"X": 494944.6566, "Y": 5457903.8889},
+#     "Kensington-Cedar Cottage": {"X": 494241.6543, "Y": 5455425.5902},
+#     "Oakridge": {"X": 491410.1615, "Y": 5451820.6407},
+#     "Sunset": {"X": 493883.5176, "Y": 5452404.9326},
+#     "Riley Park": {"X": 492650.6285, "Y": 5455798.3804},
+#     "Killarney": {"X": 496784.8536, "Y": 5450446.0664},
+#     "Musqueam": {"X": 485483.593, "Y": 5452748.6444},
+#     "Dunbar-Southlands": {"X": 486516.4442, "Y": 5455132.9432},
+#     "Kerrisdale": {"X": 488716.933, "Y": 5453017.0802},
+#     "Arbutus Ridge": {"X": 488595.4253, "Y": 5453651.5645},
+#     "Shaughnessy": {"X": 490649.8186, "Y": 5454311.084},
+#     "South Cambie": {"X": 491598.5258, "Y": 5455188.0781},
+# }
+
+# for neighbourhood, utm_coords in approx_utm_coords.items():
+#     df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) | (df["X"] == 0.0), "X"] = utm_coords[
+#         "X"
+#     ]
+#     df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) | (df["Y"] == 0.0), "Y"] = utm_coords[
+#         "Y"
+#     ]
+
+for neighborhood in unique_neighborhoods:
+    neighborhood_data = df[df["NEIGHBOURHOOD"] == neighborhood]
+
+    X = neighborhood_data.drop(["X", "Y"], axis=1)
+    y_utmx = neighborhood_data["X"]
+    y_utmy = neighborhood_data["Y"]
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            (
+                "categorical",
+                OneHotEncoder(),
+                ["TYPE", "YEAR", "MONTH", "HUNDRED_BLOCK", "NEIGHBOURHOOD"],
+            )
+        ],
+        remainder="passthrough",
+    )
+
+    X_transformed = preprocessor.fit_transform(X)
+
+    (
+        X_train,
+        X_test,
+        y_utmx_train,
+        y_utmx_test,
+        y_utmy_train,
+        y_utmy_test,
+    ) = train_test_split(X_transformed, y_utmx, y_utmy, test_size=0.2, random_state=42)
+
+    model_x = LinearRegression()
+    model_y = LinearRegression()
+
+    model_x.fit(X_train, y_utmx_train)
+    model_y.fit(X_train, y_utmy_train)
+
+    predicted_utmx = model_x.predict(X_test)
+    predicted_utmy = model_y.predict(X_test)
+
+    print(f"Neighbourhood: {neighborhood} \n X: {predicted_utmx} Y: {predicted_utmy}")
+
 
 """ Note that some crimes are similiar:
 B&E Commerical & B&E res/other,
@@ -41,7 +130,7 @@ Car Crash (w/ Fatality), Car Crash (w/ Injury)
 
 Will need to take into account the similiarities/Differences when analyzing data"""
 
-df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"]]
+df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "X", "Y"]]
 df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD"])
 
 df.to_csv(cleaned_data_file, index=False)
