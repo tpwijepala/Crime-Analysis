@@ -80,8 +80,6 @@ for neighbourhood, utm_coords in approx_utm_coords.items():
 
 # changing UTM -> lat and lon
 # https://stackoverflow.com/questions/49890492/convert-utm-to-lat-long-in-csv-using-pandas
-
-
 def utmToLatlon(row):
     if row["X"] == 0 and row["Y"] == 0:
         return pd.Series({"LAT": "NULL", "LON": "NULL"})
