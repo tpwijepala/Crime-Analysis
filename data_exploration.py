@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.dates import MonthLocator, DateFormatter
 
@@ -21,7 +22,7 @@ df_oct = df[df["MONTH"] == 10]
 df_nov = df[df["MONTH"] == 11]
 df_dec = df[df["MONTH"] == 12]
 
-def monthly_trends(df):
+def monthly_crime_rate():
     # Exploring monthly trends in crimes
     monthly_crime = df.groupby("MONTH").size()
     plt.figure(figsize=(12,8))
@@ -29,6 +30,87 @@ def monthly_trends(df):
     plt.title("Monthly Crime Trends")
     plt.xlabel("Month")
     plt.ylabel("Number of Crimes")
+    plt.savefig('monthly_trends.png')
+
+def crime_type_trends():
+    
+    xlabels = np.arange(1,13)
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Break & Enter Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_BE = df[(df["TYPE"] == "B&E-C") | (df["TYPE"] == "B&E-R/O")].groupby("MONTH").size()
+    df_BE.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/B&E.png')
+
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Homicide Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    # plt.yticks()
+    
+    df_homicide = df[df["TYPE"] == "Homicide"].groupby("MONTH").size()
+    # filling in empty months with 0
+    new_index = pd.Index(xlabels, name="MONTH")
+    df_homicide = df_homicide.reindex(new_index, fill_value = 0)
+    df_homicide.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Homicide.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Mischief Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_mischief = df[df["TYPE"] == "Mischief"].groupby("MONTH").size()
+    df_mischief.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Mischief.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Assault Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_assault = df[df["TYPE"] == "Assault"].groupby("MONTH").size()
+    df_assault.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Assault.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Theft Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_theft = df[(df["TYPE"] == "Theft-O") | (df["TYPE"] == "Theft-FV")].groupby("MONTH").size()
+    df_theft.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Theft.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Theft of Bike Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_theft_OB = df[df["TYPE"] == "Theft-OB"].groupby("MONTH").size()
+    df_theft_OB.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Theft-OB.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Theft of Vehicle Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_theft_OV = df[df["TYPE"] == "Theft-OV"].groupby("MONTH").size()
+    df_theft_OV.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(xlabels, rotation=0)
+    plt.savefig('crime-type-trends/Theft-OV.png')
+    
+    plt.figure(figsize=(9,6))
+    plt.title("Monthly Car Crash Rates")
+    plt.xlabel("Month")
+    plt.ylabel("# of Crimes")
+    df_CC = df[(df["TYPE"] == "CC-F") | (df["TYPE"] == "CC-I")].groupby("MONTH").size()
+    df_CC.plot(marker="o", linestyle="-", color="blue")
+    plt.xticks(rotation=0)
+    plt.savefig('crime-type-trends/CC.png')
 
 def monthly_crime_types():
     # Visualizing distribution of crime types per month
@@ -191,11 +273,9 @@ def monthly_neighbourhood_crimes():
     dec_counts.to_csv("data/neighbourhood-data/dev-counts.csv", index=False)
 
 def main():
-    monthly_trends(df)
-    plt.savefig('monthly_trends.png')
-    
+    monthly_crime_rate()
+    crime_type_trends()
     monthly_crime_types()
-    
     monthly_neighbourhood_crimes()
     
 main()
