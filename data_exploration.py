@@ -1,12 +1,16 @@
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.dates import MonthLocator, DateFormatter
 
 # loading cleaned data
-cleaned_data = "data/cleaned-data/2022_crimedata.csv"
+cleaned_files = [file for file in os.listdir("data/cleaned-data/")]
 
-df = pd.read_csv(cleaned_data)
+df = pd.DataFrame()
+for file in cleaned_files:
+    data = pd.read_csv("data/cleaned-data/"+file)
+    df = df.append(data)
 
 # Monthly DataFrames
 df_jan = df[df["MONTH"] == 1]
