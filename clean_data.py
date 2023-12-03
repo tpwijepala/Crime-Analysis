@@ -2,15 +2,11 @@ import sys
 import pandas as pd
 import utm
 
-# input_file = sys.argv[1]
-# output_file = sys.argv[2]
+data_year = sys.argv[1]
 
-# preprocessed_data_file = f"data/pre-processed-data/{input_file}"
-# cleaned_data_file = f"data/cleaned-data/{output_file}"
-preprocessed_data_file = (
-    "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
-)
-cleaned_data_file = "data/cleaned-data/2022_crimedata.csv"
+preprocessed_data_file = f"data/pre-processed-data/crimedata_csv_AllNeighbourhoods_{data_year}.csv"
+cleaned_data_file = f"data/cleaned-data/{data_year}_crimedata.csv"
+
 
 df = pd.read_csv(preprocessed_data_file)
 
