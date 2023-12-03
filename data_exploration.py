@@ -13,6 +13,7 @@ for file in cleaned_files:
     df = pd.concat([df, data])
 
 # Monthly DataFrames
+num_of_years = df["YEAR"].max() - df["YEAR"].min() + 1
 df_jan = df[df["MONTH"] == 1]
 df_feb = df[df["MONTH"] == 2]
 df_mar = df[df["MONTH"] == 3]
@@ -54,18 +55,8 @@ def crime_rate_trends():
 
 def monthly_crime_rate():
     # Exploring monthly trends in crimes
-    monthly_crime = df.groupby("MONTH").size()
-    plt.figure(figsize=(12, 8))
-    monthly_crime.plot(marker="o", linestyle="-", color="blue")
-    plt.title("Monthly Crime Trends")
-    plt.xlabel("Month")
-    plt.ylabel("Number of Crimes")
-    plt.savefig("monthly_trends.png")
-
-
-def monthly_trends(df):
-    # Exploring monthly trends in crimes
-    monthly_crime = df.groupby("MONTH").size()
+    monthly_crime = df.groupby(["YEAR","MONTH"]).size()
+    monthly_crime = monthly_crime.groupby("MONTH").mean()
     plt.figure(figsize=(12, 8))
     monthly_crime.plot(marker="o", linestyle="-", color="blue")
     plt.title("Monthly Crime Trends")
@@ -410,11 +401,11 @@ def monthly_neighbourhood_crimes():
 
 
 def main():
-    crime_rate_trends()
+    # crime_rate_trends()
     monthly_crime_rate()
-    crime_type_trends()
-    monthly_crime_types()
-    monthly_neighbourhood_crimes()
+    # crime_type_trends()
+    # monthly_crime_types()
+    # monthly_neighbourhood_crimes()
 
 
 if __name__ == "__main__":
