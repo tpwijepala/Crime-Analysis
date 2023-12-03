@@ -162,7 +162,10 @@ def plot_monthly_crime_types(index, month):
     plt.xlabel("Crime Type")
     plt.ylabel("# of Crimes")
     plt.ylim(0, 1100)
-    df[df["MONTH"] == index]["TYPE"].value_counts().plot(kind="bar")
+    monthly_df = df[df["MONTH"] == index]
+    monthly_df = monthly_df.groupby(["YEAR", "TYPE"]).size()
+    monthly_df = monthly_df.groupby("TYPE").mean()
+    monthly_df.plot(kind="bar")
     plt.xticks(rotation=0)
     plt.savefig(f"monthly-crimes-png/{month}-crimes.png")
 
@@ -170,106 +173,6 @@ def plot_monthly_crime_types(index, month):
 def monthly_crime_types():
     for index, month in enumerate(months):
         plot_monthly_crime_types(index + 1, month)
-
-
-# def monthly_crime_types():
-#     # Visualizing distribution of crime types per month
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in January")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_jan["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/jan-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in February")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_feb["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/feb-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in March")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_mar["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/mar-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in April")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_apr["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/apr-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in May")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_may["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/may-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in June")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_jun["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/jun-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in July")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_jul["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/jul-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in August")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_aug["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/aug-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in September")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_sep["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/sep-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in October")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_oct["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/oct-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in November")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_nov["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/nov-crimes.png")
-
-#     plt.figure(figsize=(9, 6))
-#     plt.title("Crime Types in December")
-#     plt.xlabel("Crime Type")
-#     plt.ylabel("# of Crimes")
-#     df_dec["TYPE"].value_counts().plot(kind="bar")
-#     plt.xticks(rotation=0)
-#     plt.savefig("monthly-crimes-png/dec-crimes.png")
 
 
 def monthly_neighbourhood_crimes():
@@ -409,8 +312,8 @@ def monthly_neighbourhood_crimes():
 def main():
     # crime_rate_trends()
     # monthly_crime_rate()
-    crime_type_trends()
-    # monthly_crime_types()
+    # crime_type_trends()
+    monthly_crime_types()
     # monthly_neighbourhood_crimes()
 
 
