@@ -10,3 +10,17 @@ df = pd.DataFrame()
 for file in cleaned_files:
     data = pd.read_csv("data/cleaned-data/"+file)
     df = pd.concat([df, data])
+
+df = df.groupby(["YEAR","MONTH"]).size().to_frame("SIZE")
+df = df.reset_index()
+
+contingency = pd.pivot_table(
+    df[["MONTH","SIZE"]],
+    values="SIZE",
+    columns="MONTH",
+    fill_value=0
+    )
+
+chi2, p, dof, expected = stats.chi2_contingency(contingency)
+print(p)
+print(expected)
