@@ -1,10 +1,5 @@
 import sys
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.linear_model import LinearRegression
-from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestRegressor
 import utm
 
 data_year = sys.argv[1]
