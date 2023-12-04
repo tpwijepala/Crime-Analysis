@@ -43,8 +43,8 @@ neighbor.fit(dfc["TYPE"])
 dfc["TYPE"] = neighbor.transform(dfc["TYPE"])
 
 
-X = dfc[["YEAR", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
-y = dfc["MONTH"]
+X = dfc[["YEAR", "MONTH", "NEIGHBOURHOOD", "LAT", "LON"]]
+y = dfc["TYPE"]
 
 
 X_train, X_valid, y_train, y_valid = train_test_split(X, y)
