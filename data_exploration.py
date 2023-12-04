@@ -30,13 +30,15 @@ months = {
     "dec": "December",
 }
 
+seasons = ["winter", "spring", "summer", "fall"]
+
 
 def crime_rate_trends():
     df["DATE"] = pd.to_datetime(
         df["YEAR"].astype(str) + df["MONTH"].astype(str), format="%Y%m"
     )
     plt.figure(figsize=(12, 8))
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     plt.xlabel("DATE")
     plt.title("Crime Rate Trends")
     crime_rates = df.groupby("DATE").size()
@@ -63,7 +65,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Break & Enter Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_BE = (
         df[(df["TYPE"] == "B&E-C") | (df["TYPE"] == "B&E-R/O")]
         .groupby(["YEAR", "MONTH"])
@@ -77,7 +79,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Homicide Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_homicide = df[df["TYPE"] == "Homicide"].groupby(["YEAR", "MONTH"]).size()
     df_homicide = df_homicide.groupby("MONTH").mean()
     # filling in empty months with 0
@@ -90,7 +92,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Mischief Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_mischief = df[df["TYPE"] == "Mischief"].groupby(["YEAR", "MONTH"]).size()
     df_mischief = df_mischief.groupby("MONTH").mean()
     df_mischief.plot(marker="o", linestyle="-", color="blue")
@@ -100,7 +102,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Assault Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_assault = df[df["TYPE"] == "Assault"].groupby(["YEAR", "MONTH"]).size()
     df_assault = df_assault.groupby("MONTH").mean()
     df_assault.plot(marker="o", linestyle="-", color="blue")
@@ -110,7 +112,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_theft = (
         df[(df["TYPE"] == "Theft-O") | (df["TYPE"] == "Theft-FV")]
         .groupby(["YEAR", "MONTH"])
@@ -124,7 +126,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft of Bike Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_theft_OB = df[df["TYPE"] == "Theft-OB"].groupby(["YEAR", "MONTH"]).size()
     df_theft_OB = df_theft_OB.groupby("MONTH").mean()
     df_theft_OB.plot(marker="o", linestyle="-", color="blue")
@@ -134,7 +136,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft of Vehicle Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_theft_OV = df[df["TYPE"] == "Theft-OV"].groupby(["YEAR", "MONTH"]).size()
     df_theft_OV = df_theft_OV.groupby("MONTH").mean()
     df_theft_OV.plot(marker="o", linestyle="-", color="blue")
@@ -144,7 +146,7 @@ def crime_type_trends():
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Car Crash Rates")
     plt.xlabel("Month")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     df_CC = (
         df[(df["TYPE"] == "CC-F") | (df["TYPE"] == "CC-I")]
         .groupby(["YEAR", "MONTH"])
@@ -156,11 +158,30 @@ def crime_type_trends():
     plt.savefig("crime-type-trends-png/CC.png")
 
 
+def plot_seasonal_crime_types(season):
+    plt.figure(figsize=(9, 6))
+    plt.title(f"Crime Types in {season.capitalize()}")
+    plt.xlabel("Crime Type")
+    plt.ylabel("Number of Crimes")
+    plt.ylim(0, 3100)
+    seasonal_df = df[df["SEASON"] == season.capitalize()]
+    seasonal_df = seasonal_df.groupby(["YEAR", "TYPE"]).size()
+    seasonal_df = seasonal_df.groupby("TYPE").mean()
+    seasonal_df.plot(kind="bar")
+    plt.xticks(rotation=0)
+    plt.savefig(f"seasonal-crimes-png/{season}-crimes.png")
+
+
+def seasonal_crime_types():
+    for season in seasons:
+        plot_seasonal_crime_types(season)
+
+
 def plot_monthly_crime_types(index, month_short, month_full):
     plt.figure(figsize=(9, 6))
     plt.title(f"Crime Types in {month_full}")
     plt.xlabel("Crime Type")
-    plt.ylabel("# of Crimes")
+    plt.ylabel("Number of Crimes")
     plt.ylim(0, 1100)
     monthly_df = df[df["MONTH"] == index]
     monthly_df = monthly_df.groupby(["YEAR", "TYPE"]).size()
@@ -168,6 +189,7 @@ def plot_monthly_crime_types(index, month_short, month_full):
     monthly_df.plot(kind="bar")
     plt.xticks(rotation=0)
     plt.savefig(f"monthly-crimes-png/{month_short}-crimes.png")
+    plt.close()
 
 
 def monthly_crime_types():
@@ -203,6 +225,7 @@ def main():
     crime_rate_trends()
     monthly_crime_rate()
     crime_type_trends()
+    seasonal_crime_types()
     monthly_crime_types()
     monthly_neighbourhood_crimes()
 
