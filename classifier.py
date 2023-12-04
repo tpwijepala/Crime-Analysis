@@ -54,17 +54,21 @@ X_train, X_valid, y_train, y_valid = train_test_split(X, y)
 bayes_model = GaussianNB()
 bayes_model.fit(X_train, y_train)
 
+print("bayes")
 print(bayes_model.score(X_train, y_train))
 print(bayes_model.score(X_valid, y_valid))
+print("")
 
 
 #decision tree
 
-model = DecisionTreeClassifier(max_depth=5)
+model = DecisionTreeClassifier(max_depth=7)
 model.fit(X_train, y_train)
 
+print("decision tree")
 print(model.score(X_train, y_train))
 print(model.score(X_valid, y_valid))
+print("")
 
 #forest
 
@@ -72,15 +76,19 @@ model = RandomForestClassifier(n_estimators=9,
                                max_depth=5)
 model.fit(X_train, y_train)
 
+print("forest")
 print(model.score(X_train, y_train))
 print(model.score(X_valid, y_valid))
+print("")
 
 #neighbor
 model = KNeighborsClassifier(n_neighbors=9)
 model.fit(X_train, y_train)
 
+print("neighbor")
 print(model.score(X_train, y_train))
 print(model.score(X_valid, y_valid))
+print("")
 
 
 
