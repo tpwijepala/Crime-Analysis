@@ -78,10 +78,10 @@ approx_utm_coords = {
 }
 
 for neighbourhood, utm_coords in approx_utm_coords.items():
-    df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) | (df["X"] == 0.0), "X"] = utm_coords[
+    df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) & (df["X"] == 0.0), "X"] = utm_coords[
         "X"
     ]
-    df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) | (df["Y"] == 0.0), "Y"] = utm_coords[
+    df.loc[(df["NEIGHBOURHOOD"] == neighbourhood) & (df["Y"] == 0.0), "Y"] = utm_coords[
         "Y"
     ]
 
