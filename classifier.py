@@ -14,8 +14,6 @@ from sklearn.naive_bayes import GaussianNB
 
 seaborn.set()
 
-
-
 # loading cleaned data
 cleaned_files = [file for file in os.listdir("data/cleaned-data/")]
 
@@ -36,15 +34,20 @@ block = preprocessing.LabelEncoder()
 
 dfc = df.copy(deep=True)
 dfc["NEIGHBOURHOOD"] = dfc["NEIGHBOURHOOD"].apply(lambda x: str(x))
+dfc["TYPE"] = dfc["TYPE"].apply(lambda x: str(x))
 
 neighbor.fit(dfc["NEIGHBOURHOOD"])
 dfc["NEIGHBOURHOOD"] = neighbor.transform(dfc["NEIGHBOURHOOD"])
 
+neighbor.fit(dfc["TYPE"])
+dfc["TYPE"] = neighbor.transform(dfc["TYPE"])
 
-X = dfc[["MONTH", "NEIGHBOURHOOD", "LAT", "LON"]]
+
+X = dfc[["YEAR", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
 y = dfc["MONTH"]
 
-X_train, X_valid, y_train, y_valid = train_test_split(X, y, test_size=0.80)
+
+X_train, X_valid, y_train, y_valid = train_test_split(X, y)
 
 
 #bayes
@@ -67,6 +70,13 @@ print(model.score(X_valid, y_valid))
 
 model = RandomForestClassifier(n_estimators=9,
                                max_depth=5)
+model.fit(X_train, y_train)
+
+print(model.score(X_train, y_train))
+print(model.score(X_valid, y_valid))
+
+#neighbor
+model = KNeighborsClassifier(n_neighbors=9)
 model.fit(X_train, y_train)
 
 print(model.score(X_train, y_train))
