@@ -14,18 +14,6 @@ for file in cleaned_files:
 
 # Monthly DataFrames
 num_of_years = df["YEAR"].max() - df["YEAR"].min() + 1
-df_jan = df[df["MONTH"] == 1]
-df_feb = df[df["MONTH"] == 2]
-df_mar = df[df["MONTH"] == 3]
-df_apr = df[df["MONTH"] == 4]
-df_may = df[df["MONTH"] == 5]
-df_jun = df[df["MONTH"] == 6]
-df_jul = df[df["MONTH"] == 7]
-df_aug = df[df["MONTH"] == 8]
-df_sep = df[df["MONTH"] == 9]
-df_oct = df[df["MONTH"] == 10]
-df_nov = df[df["MONTH"] == 11]
-df_dec = df[df["MONTH"] == 12]
 
 months = {
     "jan": "January",
@@ -57,15 +45,16 @@ def crime_rate_trends():
 
 
 def monthly_crime_rate():
-    # Exploring monthly trends in crimes
+    month_names = [month.capitalize() for month in months.keys()]
     monthly_crime = df.groupby(["YEAR", "MONTH"]).size()
     monthly_crime = monthly_crime.groupby("MONTH").mean()
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(12, 9))
     monthly_crime.plot(marker="o", linestyle="-", color="blue")
     plt.title("Monthly Crime Trends")
     plt.xlabel("Month")
     plt.ylabel("Number of Crimes")
-    plt.savefig("monthly_trends.png")
+    plt.xticks(range(1, len(month_names) + 1), month_names)
+    plt.savefig("monthly-trends.png")
 
 
 def crime_type_trends():
