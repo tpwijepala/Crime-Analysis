@@ -9,7 +9,9 @@ import utm
 
 data_year = sys.argv[1]
 
-preprocessed_data_file = f"data/pre-processed-data/crimedata_csv_AllNeighbourhoods_{data_year}.csv"
+preprocessed_data_file = (
+    f"data/pre-processed-data/crimedata_csv_AllNeighbourhoods_{data_year}.csv"
+)
 cleaned_data_file = f"data/cleaned-data/{data_year}_crimedata.csv"
 
 
@@ -33,6 +35,23 @@ rename_mapping = {
 
 
 df["TYPE"] = df["TYPE"].map(rename_mapping)
+
+months_to_seasons_mapping = {
+    1: "Winter",
+    2: "Winter",
+    3: "Spring",
+    4: "Spring",
+    5: "Spring",
+    6: "Summer",
+    7: "Summer",
+    8: "Summer",
+    9: "Fall",
+    10: "Fall",
+    11: "Fall",
+    12: "Winter",
+}
+
+df["SEASON"] = df["MONTH"].map(months_to_seasons_mapping)
 
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
 
@@ -74,8 +93,6 @@ for neighbourhood, utm_coords in approx_utm_coords.items():
 
 # changing UTM -> lat and lon
 # https://stackoverflow.com/questions/49890492/convert-utm-to-lat-long-in-csv-using-pandas
-
-
 def utmToLatlon(row):
     if row["X"] == 0 and row["Y"] == 0:
         return pd.Series({"LAT": "NULL", "LON": "NULL"})
@@ -96,7 +113,9 @@ Car Crash (w/ Fatality), Car Crash (w/ Injury)
 
 Will need to take into account the similiarities/Differences when analyzing data"""
 
-df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
-df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"])
+df = df[["YEAR", "MONTH", "SEASON", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
+df = df.sort_values(
+    by=["YEAR", "MONTH", "SEASON", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]
+)
 
 df.to_csv(cleaned_data_file, index=False)
