@@ -7,17 +7,13 @@ from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 import utm
 
-# input_file = sys.argv[1]
-# output_file = sys.argv[2]
-
-# preprocessed_data_file = f"data/pre-processed-data/{input_file}"
-# cleaned_data_file = f"data/cleaned-data/{output_file}"
-
+data_year = sys.argv[1]
 
 preprocessed_data_file = (
-    "data/pre-processed-data/crimedata_csv_AllNeighbourhoods_2022.csv"
+    f"data/pre-processed-data/crimedata_csv_AllNeighbourhoods_{data_year}.csv"
 )
-cleaned_data_file = "data/cleaned-data/2022_crimedata.csv"
+cleaned_data_file = f"data/cleaned-data/{data_year}_crimedata.csv"
+
 
 df = pd.read_csv(preprocessed_data_file)
 
@@ -39,6 +35,23 @@ rename_mapping = {
 
 
 df["TYPE"] = df["TYPE"].map(rename_mapping)
+
+months_to_seasons_mapping = {
+    1: "Winter",
+    2: "Winter",
+    3: "Spring",
+    4: "Spring",
+    5: "Spring",
+    6: "Summer",
+    7: "Summer",
+    8: "Summer",
+    9: "Fall",
+    10: "Fall",
+    11: "Fall",
+    12: "Winter",
+}
+
+df["SEASON"] = df["MONTH"].map(months_to_seasons_mapping)
 
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
 
@@ -100,7 +113,9 @@ Car Crash (w/ Fatality), Car Crash (w/ Injury)
 
 Will need to take into account the similiarities/Differences when analyzing data"""
 
-df = df[["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
-df = df.sort_values(by=["YEAR", "MONTH", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"])
+df = df[["YEAR", "MONTH", "SEASON", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]]
+df = df.sort_values(
+    by=["YEAR", "MONTH", "SEASON", "TYPE", "NEIGHBOURHOOD", "LAT", "LON"]
+)
 
 df.to_csv(cleaned_data_file, index=False)
