@@ -22,4 +22,4 @@ https://geodash.vpd.ca/opendata/#
 
 ### Link to Report
 
-**https://docs.google.com/document/d/1kFxQjZkUsZUWtrmXnXynJav7-mOdFTYlX020Puzt7QA/edit?usp=sharing**
+https://docs.google.com/document/d/1kFxQjZkUsZUWtrmXnXynJav7-mOdFTYlX020Puzt7QA/edit?usp=sharing
