@@ -17,7 +17,7 @@ df_monthly = df.groupby(["YEAR", "MONTH"]).size().to_frame("Number of Crimes")
 df_monthly = df_monthly.reset_index()
 
 monthly_distribtuion = pd.pivot_table(
-    df_monthly[["MONTH", "SIZE"]],
+    df_monthly[["MONTH", "Number of Crimes"]],
     columns="MONTH",
     fill_value=0
 )
@@ -31,8 +31,8 @@ df_neighbourhood = df.groupby(["YEAR","MONTH", "NEIGHBOURHOOD"]).size().to_frame
 df_neighbourhood = df_neighbourhood.reset_index()
 
 neighbourhood_month_contingency = pd.pivot_table(
-    df_neighbourhood[["MONTH","SIZE","NEIGHBOURHOOD"]],
-    values="SIZE",
+    df_neighbourhood[["MONTH","Number of Crimes","NEIGHBOURHOOD"]],
+    values="Number of Crimes",
     index="MONTH",
     columns="NEIGHBOURHOOD",
     fill_value=0
