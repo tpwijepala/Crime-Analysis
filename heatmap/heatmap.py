@@ -16,7 +16,7 @@ mapWinter = folium.Map(tiles="Cartodb Positron", location=[49.234696136718895,-1
 
 location = []
 for index, row in df.iterrows():
-        if row['MONTH']>=12 and row['MONTH']<=2:
+        if row['MONTH']==12 or row['MONTH']<=2:
                 location.append([row['LAT'], row['LON']])
 mapWinter.add_child(plugins.HeatMap(location, blur=14, min_opacity=0.25))
 
@@ -41,8 +41,8 @@ for index, row in df.iterrows():
                 location.append([row['LAT'], row['LON']])
 mapSpring.add_child(plugins.HeatMap(location, blur=14, min_opacity=0.25))
 
-mapWinter.save('maps/mapwinter.html')
-mapSummer.save('maps/mapsummmer.html')
-mapFall.save('maps/mapfall.html')
-mapSpring.save('maps/mapspring.html')
+mapWinter.save('heatmap/maps/mapwinter.html')
+mapSummer.save('heatmap/maps/mapsummmer.html')
+mapFall.save('heatmap/maps/mapfall.html')
+mapSpring.save('heatmap/maps/mapspring.html')
 #webbrowser.open('map.html')
