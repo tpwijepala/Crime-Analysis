@@ -1,7 +1,9 @@
 import os
 import pandas as pd
+import dataframe_image as dfi
 import numpy as np
 from scipy import stats
+import matplotlib.pyplot as plt
 
 # loading cleaned data
 cleaned_files = [file for file in os.listdir("data/cleaned-data/")]
@@ -23,6 +25,8 @@ contingency = pd.pivot_table(
     )
 
 print(contingency)
+dfi.export(contingency,"neighbourhood-month-contingency.png")
+
 chi2, p, dof, expected = stats.chi2_contingency(contingency)
 print(p)
 # print(expected)
