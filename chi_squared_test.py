@@ -13,7 +13,7 @@ for file in cleaned_files:
     df = pd.concat([df, data])
     
     
-df_monthly = df.groupby(["YEAR", "MONTH"]).size().to_frame("SIZE")
+df_monthly = df.groupby(["YEAR", "MONTH"]).size().to_frame("Number of Crimes")
 df_monthly = df_monthly.reset_index()
 
 monthly_distribtuion = pd.pivot_table(
@@ -27,7 +27,7 @@ monthly_distribtuion = monthly_distribtuion.to_numpy()[0]
 chi_2, p = stats.chisquare(monthly_distribtuion)
 print(p)
 
-df_neighbourhood = df.groupby(["YEAR","MONTH", "NEIGHBOURHOOD"]).size().to_frame("SIZE")
+df_neighbourhood = df.groupby(["YEAR","MONTH", "NEIGHBOURHOOD"]).size().to_frame("Number of Crimes")
 df_neighbourhood = df_neighbourhood.reset_index()
 
 neighbourhood_month_contingency = pd.pivot_table(
