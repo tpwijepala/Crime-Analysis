@@ -27,9 +27,35 @@ rename_mapping = {
     "Vehicle Collision or Pedestrian Struck (with Fatality)": "CC-F",
     "Vehicle Collision or Pedestrian Struck (with Injury)": "CF-I",
 }
-
-
 df["TYPE"] = df["TYPE"].map(rename_mapping)
+
+neighbourhood_mapping = {
+    'Central Business District':'CBD',
+    'Dunbar-Southlands':'Du-S',
+    'Fairview':'Fai',
+    'Grandview-Woodland':'Gr-W',
+    'Hastings-Sunrise':'Ha-S',
+    'Kensington-Cedar Cottage':'K-C',
+    'Kerrisdale':'Ker',
+    'Killarney':'Kil',
+    'Kitsilano':'Kit',
+    'Marpole':'Mar',
+    'Mount Pleasant':'MoP',
+    'Oakridge':'Oak',
+    'Renfrew-Collingwood':'Re-C',
+    'Shaughnessy':'Sha',
+    'South Cambie':'SCa',
+    'Strathcona':'Str',
+    'Sunset':'Sun',
+    'Victoria-Fraserview':'Vi-F',
+    'West End':'WeE',
+    'West Point Grey':'WPG',
+    'Arbutus Ridge':'ArR',
+    'Riley Park':'RiP',
+    'Stanley Park':'StP',
+    'Musqueam':'Mus'
+}
+df["NEIGHBOURHOOD"]=df["NEIGHBOURHOOD"].replace(neighbourhood_mapping)
 
 months_to_seasons_mapping = {
     1: "Winter",
@@ -45,7 +71,6 @@ months_to_seasons_mapping = {
     11: "Fall",
     12: "Winter",
 }
-
 df["SEASON"] = df["MONTH"].map(months_to_seasons_mapping)
 
 df.dropna(subset=["NEIGHBOURHOOD"], inplace=True)
