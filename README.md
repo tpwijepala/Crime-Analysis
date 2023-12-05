@@ -37,5 +37,6 @@ Dataset for Vancouver Crimes from VPD Open Data: https://geodash.vpd.ca/opendata
 
 ## Final Report
 
-Link to report
-**https://docs.google.com/document/d/1kFxQjZkUsZUWtrmXnXynJav7-mOdFTYlX020Puzt7QA/edit?usp=sharing**
+### Link to Report
+
+https://docs.google.com/document/d/1kFxQjZkUsZUWtrmXnXynJav7-mOdFTYlX020Puzt7QA/edit?usp=sharing
