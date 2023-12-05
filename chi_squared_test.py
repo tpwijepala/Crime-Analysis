@@ -46,4 +46,23 @@ neighbourhood_month_contingency = neighbourhood_month_contingency.to_numpy()
 
 chi2, p, dof, expected = stats.chi2_contingency(neighbourhood_month_contingency)
 print(p)
-# print(expected)
+
+df_crime_type = (
+    df.groupby(["YEAR", "MONTH", "TYPE"]).size().to_frame("Number of Crimes")
+)
+df_crime_type = df_crime_type.reset_index()
+
+crime_type_month_contingency = pd.pivot_table(
+    df_crime_type[["MONTH", "Number of Crimes", "TYPE"]],
+    values="Number of Crimes",
+    index="MONTH",
+    columns="TYPE",
+    fill_value=0,
+)
+
+
+dfi.export(crime_type_month_contingency, "chi2-png/crime-type-month-contingency.png")
+crime_type_month_contingency = crime_type_month_contingency.to_numpy()
+
+chi2, p, dof, expected = stats.chi2_contingency(crime_type_month_contingency)
+print(p)
