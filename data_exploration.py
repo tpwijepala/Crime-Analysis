@@ -220,14 +220,32 @@ def monthly_neighbourhood_crimes():
     for index, (month_short, _) in enumerate(months.items()):
         create_monthly_neigbourhood_tables(index + 1, month_short)
 
+def plot_seasonal_neighbourhood_cr(season):
+    plt.figure(figsize=(12, 6))
+    plt.title(f"Neighbourhood Crime Rate in {season.capitalize()}")
+    plt.xlabel("Neighbourhood")
+    plt.ylabel("Number of Crimes")
+    plt.ylim(0, 3000)
+    print(df["NEIGHBOURHOOD"].unique())
+    seasonal_df = df[df["SEASON"] == season.capitalize()]
+    seasonal_df = seasonal_df.groupby(["YEAR", "NEIGHBOURHOOD"]).size()
+    seasonal_df = seasonal_df.groupby("NEIGHBOURHOOD").mean()
+    seasonal_df.plot(kind="bar")
+    plt.xticks(rotation=0)
+    plt.savefig(f"neighbourhood-seasonal-crime-rate-png/{season}-crime-rate.png")
+
+def seasonal_neighbourhood_crime_rate():
+    for season in seasons:
+        plot_seasonal_neighbourhood_cr(season)
 
 def main():
-    crime_rate_trends()
-    monthly_crime_rate()
-    crime_type_trends()
-    seasonal_crime_types()
-    monthly_crime_types()
-    monthly_neighbourhood_crimes()
+    # crime_rate_trends()
+    # monthly_crime_rate()
+    # crime_type_trends()
+    # seasonal_crime_types()
+    # monthly_crime_types()
+    # monthly_neighbourhood_crimes()
+    seasonal_neighbourhood_crime_rate()
 
 
 if __name__ == "__main__":
