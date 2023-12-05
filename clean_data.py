@@ -12,7 +12,7 @@ cleaned_data_file = f"data/cleaned-data/{data_year}_crimedata.csv"
 
 df = pd.read_csv(preprocessed_data_file)
 
-df = df.drop(["DAY", "HOUR", "MINUTE"], axis=1)
+df = df.drop(["DAY", "HOUR", "MINUTE", "HUNDRED_BLOCK"], axis=1)
 
 rename_mapping = {
     "Break and Enter Commercial": "B&E-C",

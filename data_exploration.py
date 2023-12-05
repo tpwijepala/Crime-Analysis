@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.dates import MonthLocator, DateFormatter
 
 # loading cleaned data
 cleaned_files = [file for file in os.listdir("data/cleaned-data/")]
@@ -249,7 +248,6 @@ def plot_seasonal_neighbourhood_cr(season):
     plt.xlabel("Neighbourhood")
     plt.ylabel("Number of Crimes")
     plt.ylim(0, 3000)
-    # print(df["NEIGHBOURHOOD"].unique())
     seasonal_df = df[df["SEASON"] == season.capitalize()]
     seasonal_df = seasonal_df.groupby(["YEAR", "NEIGHBOURHOOD"]).size()
     seasonal_df = seasonal_df.groupby("NEIGHBOURHOOD").mean()
@@ -264,11 +262,11 @@ def seasonal_neighbourhood_crime_rate():
 
 
 def main():
-    # crime_rate_trends()
-    # monthly_crime_rate()
-    # crime_type_trends()
-    # seasonal_crime_types()
-    # monthly_crime_types()
+    crime_rate_trends()
+    monthly_crime_rate()
+    crime_type_trends()
+    seasonal_crime_types()
+    monthly_crime_types()
     seasonal_neighbourhood_crimes()
     seasonal_neighbourhood_crime_rate()
 
