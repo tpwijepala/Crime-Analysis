@@ -197,28 +197,51 @@ def monthly_crime_types():
         plot_monthly_crime_types(index + 1, month_short, month_full)
 
 
-def create_monthly_neigbourhood_tables(index, month_short):
-    monthly_df = df[df["MONTH"] == index]
-    monthly_df = (
-        monthly_df.groupby(["YEAR", "NEIGHBOURHOOD", "TYPE"]).size().to_frame("SIZE")
+def plot_seasonal_neighbourhood_crime_rates(season):
+    fig, ax = plt.subplots(figsize=(16, 9))
+    colormap = plt.cm.nipy_spectral
+    colors = colormap(np.linspace(0, 1, 23))
+    ax.set_prop_cycle("color", colors)
+    plt.title(f"{season.capitalize()} Neighbourhood Crime Rates by Crime Type")
+    plt.xlabel("Crime Type")
+    plt.ylabel("Number of Crimes")
+    plt.ylim(0, 900)
+    df = pd.read_csv(f"data/neighbourhood-data/{season}-counts.csv")
+    df = df.transpose()
+    xlabels = df.index[1:]
+    new_header = df.iloc[0]
+    df = df[1:]
+    df.columns = new_header
+    df.plot(marker="o", linestyle="-", ax=ax, lw=1)
+    plt.legend()
+    plt.xticks(ticks=np.arange(11), labels=xlabels)
+    plt.savefig(
+        f"seasonal-neighbourhood-crime-rates-png/{season}-neighbourhood-crime-rates.png"
     )
-    monthly_df = monthly_df.reset_index()
-    monthly_counts = pd.pivot_table(
-        monthly_df[["NEIGHBOURHOOD", "TYPE", "SIZE"]],
+
+
+def create_seasonal_neigbourhood_tables(season):
+    seasonal_df = df[df["SEASON"] == season.capitalize()]
+    seasonal_df = (
+        seasonal_df.groupby(["YEAR", "NEIGHBOURHOOD", "TYPE"]).size().to_frame("SIZE")
+    )
+    seasonal_df = seasonal_df.reset_index()
+    seasonal_counts = pd.pivot_table(
+        seasonal_df[["NEIGHBOURHOOD", "TYPE", "SIZE"]],
         index="NEIGHBOURHOOD",
         columns="TYPE",
         fill_value=0,
     )
-    monthly_counts.columns = monthly_counts.columns.droplevel(0)
-    monthly_counts = monthly_counts.reset_index()
-    monthly_counts.to_csv(
-        f"data/neighbourhood-data/{month_short}-counts.csv", index=False
-    )
+    seasonal_counts.columns = seasonal_counts.columns.droplevel(0)
+    seasonal_counts = seasonal_counts.reset_index()
+    seasonal_counts.to_csv(f"data/neighbourhood-data/{season}-counts.csv", index=False)
 
 
-def monthly_neighbourhood_crimes():
-    for index, (month_short, _) in enumerate(months.items()):
-        create_monthly_neigbourhood_tables(index + 1, month_short)
+def seasonal_neighbourhood_crimes():
+    for season in seasons:
+        create_seasonal_neigbourhood_tables(season)
+        plot_seasonal_neighbourhood_crime_rates(season)
+
 
 def plot_seasonal_neighbourhood_cr(season):
     plt.figure(figsize=(12, 6))
@@ -226,7 +249,7 @@ def plot_seasonal_neighbourhood_cr(season):
     plt.xlabel("Neighbourhood")
     plt.ylabel("Number of Crimes")
     plt.ylim(0, 3000)
-    print(df["NEIGHBOURHOOD"].unique())
+    # print(df["NEIGHBOURHOOD"].unique())
     seasonal_df = df[df["SEASON"] == season.capitalize()]
     seasonal_df = seasonal_df.groupby(["YEAR", "NEIGHBOURHOOD"]).size()
     seasonal_df = seasonal_df.groupby("NEIGHBOURHOOD").mean()
@@ -234,9 +257,11 @@ def plot_seasonal_neighbourhood_cr(season):
     plt.xticks(rotation=0)
     plt.savefig(f"neighbourhood-seasonal-crime-rate-png/{season}-crime-rate.png")
 
+
 def seasonal_neighbourhood_crime_rate():
     for season in seasons:
         plot_seasonal_neighbourhood_cr(season)
+
 
 def main():
     # crime_rate_trends()
@@ -244,7 +269,7 @@ def main():
     # crime_type_trends()
     # seasonal_crime_types()
     # monthly_crime_types()
-    # monthly_neighbourhood_crimes()
+    seasonal_neighbourhood_crimes()
     seasonal_neighbourhood_crime_rate()
 
 
