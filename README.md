@@ -24,7 +24,7 @@ First we need to clean all of our original data
 
 ## 2. Visualizing the Data
 
--   `python heatmaps.py`: Produces heatmaps to identify crime hotspots
+-   `python maps/heatmaps.py`: Produces heatmaps to identify crime hotspots
 
 ## 3. Running the Analysis
 
