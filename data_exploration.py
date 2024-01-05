@@ -42,7 +42,7 @@ def crime_rate_trends():
     plt.title("Crime Rate Trends")
     crime_rates = df.groupby("DATE").size()
     crime_rates.plot(marker="o", linestyle="-", color="blue")
-    plt.savefig("crime-rate-trends.png")
+    plt.savefig("png/crime-rate-trends.png")
 
 
 def monthly_crime_rate():
@@ -55,7 +55,7 @@ def monthly_crime_rate():
     plt.xlabel("Month")
     plt.ylabel("Number of Crimes")
     plt.xticks(range(1, len(month_names) + 1), month_names)
-    plt.savefig("monthly-trends.png")
+    plt.savefig("png/monthly-trends.png")
 
 
 def crime_type_trends():
@@ -73,7 +73,7 @@ def crime_type_trends():
     df_BE = df_BE.groupby("MONTH").mean()
     df_BE.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/B&E.png")
+    plt.savefig("png/crime-type-trends-png/B&E.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Homicide Rates")
@@ -86,7 +86,7 @@ def crime_type_trends():
     df_homicide = df_homicide.reindex(new_index, fill_value=0)
     df_homicide.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Homicide.png")
+    plt.savefig("png/crime-type-trends-png/Homicide.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Mischief Rates")
@@ -96,7 +96,7 @@ def crime_type_trends():
     df_mischief = df_mischief.groupby("MONTH").mean()
     df_mischief.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Mischief.png")
+    plt.savefig("png/crime-type-trends-png/Mischief.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Assault Rates")
@@ -106,7 +106,7 @@ def crime_type_trends():
     df_assault = df_assault.groupby("MONTH").mean()
     df_assault.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Assault.png")
+    plt.savefig("png/crime-type-trends-png/Assault.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft Rates")
@@ -120,7 +120,7 @@ def crime_type_trends():
     df_theft = df_theft.groupby("MONTH").mean()
     df_theft.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Theft.png")
+    plt.savefig("png/crime-type-trends-png/Theft.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft of Bike Rates")
@@ -130,7 +130,7 @@ def crime_type_trends():
     df_theft_OB = df_theft_OB.groupby("MONTH").mean()
     df_theft_OB.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Theft-OB.png")
+    plt.savefig("png/crime-type-trends-png/Theft-OB.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Theft of Vehicle Rates")
@@ -140,7 +140,7 @@ def crime_type_trends():
     df_theft_OV = df_theft_OV.groupby("MONTH").mean()
     df_theft_OV.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(xlabels, rotation=0)
-    plt.savefig("crime-type-trends-png/Theft-OV.png")
+    plt.savefig("png/crime-type-trends-png/Theft-OV.png")
 
     plt.figure(figsize=(9, 6))
     plt.title("Monthly Car Crash Rates")
@@ -154,7 +154,7 @@ def crime_type_trends():
     df_CC = df_CC.groupby("MONTH").mean()
     df_CC.plot(marker="o", linestyle="-", color="blue")
     plt.xticks(rotation=0)
-    plt.savefig("crime-type-trends-png/CC.png")
+    plt.savefig("png/crime-type-trends-png/CC.png")
 
 
 def plot_seasonal_crime_types(season):
@@ -168,7 +168,7 @@ def plot_seasonal_crime_types(season):
     seasonal_df = seasonal_df.groupby("TYPE").mean()
     seasonal_df.plot(kind="bar")
     plt.xticks(rotation=0)
-    plt.savefig(f"seasonal-crimes-png/{season}-crimes.png")
+    plt.savefig(f"png/seasonal-crimes-png/{season}-crimes.png")
 
 
 def seasonal_crime_types():
@@ -187,7 +187,7 @@ def plot_monthly_crime_types(index, month_short, month_full):
     monthly_df = monthly_df.groupby("TYPE").mean()
     monthly_df.plot(kind="bar")
     plt.xticks(rotation=0)
-    plt.savefig(f"monthly-crimes-png/{month_short}-crimes.png")
+    plt.savefig(f"png/monthly-crimes-png/{month_short}-crimes.png")
     plt.close()
 
 
@@ -215,7 +215,7 @@ def plot_seasonal_neighbourhood_crime_rates(season):
     plt.legend()
     plt.xticks(ticks=np.arange(11), labels=xlabels)
     plt.savefig(
-        f"seasonal-neighbourhood-crime-rates-png/{season}-neighbourhood-crime-rates.png"
+        f"png/seasonal-neighbourhood-crime-rates-png/{season}-neighbourhood-crime-rates.png"
     )
 
 
@@ -253,7 +253,7 @@ def plot_seasonal_neighbourhood_cr(season):
     seasonal_df = seasonal_df.groupby("NEIGHBOURHOOD").mean()
     seasonal_df.plot(kind="bar")
     plt.xticks(rotation=0)
-    plt.savefig(f"neighbourhood-seasonal-crime-rate-png/{season}-crime-rate.png")
+    plt.savefig(f"png/neighbourhood-seasonal-crime-rate-png/{season}-crime-rate.png")
 
 
 def seasonal_neighbourhood_crime_rate():

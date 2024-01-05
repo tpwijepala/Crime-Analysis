@@ -20,7 +20,7 @@ monthly_distribtuion = pd.pivot_table(
     df_monthly[["MONTH", "Number of Crimes"]], columns="MONTH", fill_value=0
 )
 
-dfi.export(monthly_distribtuion, "chi2-png/monthly-distribution.png")
+dfi.export(monthly_distribtuion, "png/chi2-png/monthly-distribution.png")
 monthly_distribtuion = monthly_distribtuion.to_numpy()[0]
 chi_2, p = stats.chisquare(monthly_distribtuion)
 print(p)
@@ -40,7 +40,7 @@ neighbourhood_month_contingency = pd.pivot_table(
 
 
 dfi.export(
-    neighbourhood_month_contingency, "chi2-png/neighbourhood-month-contingency.png"
+    neighbourhood_month_contingency, "png/chi2-png/neighbourhood-month-contingency.png"
 )
 neighbourhood_month_contingency = neighbourhood_month_contingency.to_numpy()
 
@@ -61,7 +61,7 @@ crime_type_month_contingency = pd.pivot_table(
 )
 
 
-dfi.export(crime_type_month_contingency, "chi2-png/crime-type-month-contingency.png")
+dfi.export(crime_type_month_contingency, "png/chi2-png/crime-type-month-contingency.png")
 crime_type_month_contingency = crime_type_month_contingency.to_numpy()
 
 chi2, p, dof, expected = stats.chi2_contingency(crime_type_month_contingency)
